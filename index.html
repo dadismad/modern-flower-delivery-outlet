@@ -7,29 +7,103 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f7faf8;
-      --surface: #ffffff;
-      --text: #24312a;
-      --muted: #61736a;
-      --accent: #5a9b7d;
-      --accent-soft: #d9ede4;
-      --shadow: 0 18px 40px rgba(36, 49, 42, 0.08);
+      --bg-top: #f8f3ff;
+      --bg-mid: #fefcf4;
+      --bg-bottom: #eef8ff;
+      --text: #23333f;
+      --muted: #405765;
+      --accent: #ec4f8d;
+      --accent-2: #ff9b54;
+      --accent-3: #5f8cff;
+      --success: #2f8f72;
+      --shadow-soft: 0 14px 44px rgba(35, 51, 63, 0.12);
+      --max-width: 1140px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
+      min-height: 100vh;
       font-family: "Inter", "Segoe UI", system-ui, sans-serif;
-      background: radial-gradient(circle at 20% 0%, #f0faf4 0, var(--bg) 45%, #f8fbff 100%);
       color: var(--text);
-      line-height: 1.5;
+      line-height: 1.55;
+      background:
+        radial-gradient(60rem 36rem at -8% -10%, rgba(255, 174, 201, 0.42), transparent 58%),
+        radial-gradient(44rem 32rem at 108% 8%, rgba(255, 222, 164, 0.52), transparent 56%),
+        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 52%, var(--bg-bottom) 100%);
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0.28) 100%);
+      z-index: -1;
+    }
+
+    .world {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .scene {
+      position: absolute;
+      display: grid;
+      gap: 4px;
+      padding: 10px 12px;
+      text-align: center;
+      color: #20303b;
+      font-weight: 700;
+      line-height: 1.15;
+      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.75);
+      transform: translateY(0);
+      animation: bob 7s ease-in-out infinite;
+    }
+
+    .scene::before {
+      content: "";
+      position: absolute;
+      inset: -14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+      z-index: -1;
+    }
+
+    .scene-icon {
+      font-size: clamp(1.35rem, 2.3vw, 1.95rem);
+      letter-spacing: 0.04em;
+    }
+
+    .scene-label {
+      font-size: clamp(0.78rem, 1.4vw, 0.93rem);
+      color: rgba(33, 50, 60, 0.9);
+    }
+
+    .scene-1 { top: 8%; left: 4%; }
+    .scene-2 { top: 20%; right: 4%; animation-delay: -0.9s; }
+    .scene-3 { top: 46%; left: 6%; animation-delay: -1.8s; }
+    .scene-4 { top: 59%; right: 7%; animation-delay: -2.7s; }
+    .scene-5 { top: 78%; left: 40%; animation-delay: -3.6s; }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
     .shell {
-      width: min(1120px, 92vw);
+      position: relative;
+      z-index: 1;
+      width: min(var(--max-width), 92vw);
       margin: 0 auto;
-      padding: 28px 0 56px;
+      padding: 24px 0 56px;
     }
 
     .topbar {
@@ -41,9 +115,10 @@
     }
 
     .brand {
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      font-size: 1.02rem;
+      text-transform: uppercase;
     }
 
     .lang-switch {
@@ -55,12 +130,19 @@
     .lang-btn {
       border: 0;
       border-radius: 999px;
-      background: var(--surface);
+      background: rgba(255, 255, 255, 0.7);
       color: var(--text);
       padding: 8px 12px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    .lang-btn:hover,
+    .lang-btn:focus-visible {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.92);
+      outline: none;
     }
 
     .lang-btn.active {
@@ -69,106 +151,321 @@
     }
 
     .hero {
-      margin-top: 28px;
-      background: linear-gradient(150deg, #ffffff 0%, #ecf7f2 100%);
-      border-radius: 22px;
-      padding: clamp(24px, 4vw, 44px);
-      box-shadow: var(--shadow);
+      margin-top: 30px;
+      display: grid;
+      gap: 16px;
+      max-width: 74ch;
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 0.86rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent-3);
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(1.8rem, 4.8vw, 3rem);
-      line-height: 1.15;
+      font-size: clamp(2rem, 5vw, 3.3rem);
+      line-height: 1.1;
+      max-width: 19ch;
+      text-wrap: balance;
     }
 
     .hero p {
-      margin: 14px 0 0;
+      margin: 0;
+      max-width: 64ch;
       color: var(--muted);
-      max-width: 66ch;
-      font-size: 1.04rem;
+      font-size: clamp(1.02rem, 1.8vw, 1.12rem);
+      text-wrap: pretty;
+    }
+
+    .hero-actions {
+      margin-top: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+    }
+
+    .cta-primary {
+      background: linear-gradient(120deg, var(--accent), #ff6da7 70%);
+      color: #fff;
+      box-shadow: 0 10px 26px rgba(236, 79, 141, 0.34);
+    }
+
+    .cta-secondary {
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--text);
+    }
+
+    .cta:hover,
+    .cta:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-soft);
+      outline: none;
     }
 
     .chips {
-      margin-top: 18px;
+      margin-top: 4px;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
     }
 
     .chip {
-      background: var(--accent-soft);
-      color: #2f5d49;
       border-radius: 999px;
-      padding: 8px 14px;
+      padding: 7px 12px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #284452;
+      background: rgba(255, 255, 255, 0.65);
+    }
+
+    .trust {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .trust li {
+      margin: 0;
+      padding: 0;
       font-weight: 600;
-      font-size: 0.92rem;
+      color: #27404d;
+    }
+
+    .trust li::before {
+      content: "✓";
+      margin-right: 8px;
+      color: var(--success);
+      font-weight: 800;
     }
 
     .section-title {
-      margin: 34px 0 14px;
-      font-size: 1.38rem;
+      margin: 32px 0 14px;
+      font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+      line-height: 1.15;
+      text-wrap: balance;
     }
 
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
     }
 
     .card {
-      background: var(--surface);
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.06);
-      border: 1px solid #ecf1ee;
+      position: relative;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+      transition: transform 220ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: auto 20px 16px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(35, 51, 63, 0.12);
+      filter: blur(14px);
+      z-index: 0;
+    }
+
+    .product-figure {
+      margin: 0;
+      border-radius: 26px;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      isolation: isolate;
+    }
+
+    .product-figure img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.01);
+      transition: transform 320ms ease;
+      background: #f6f6f6;
+    }
+
+    .card:hover .product-figure img {
+      transform: scale(1.05);
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+      margin-top: 12px;
+      padding: 0 2px;
     }
 
     .card h3 {
-      margin: 0 0 8px;
+      margin: 0;
       font-size: 1.05rem;
+      line-height: 1.3;
     }
 
     .card p {
-      margin: 0;
+      margin: 6px 0 0;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.94rem;
+      min-height: 2.8em;
+    }
+
+    .card-bottom {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
     }
 
     .price {
-      margin-top: 12px;
-      color: #245d44;
-      font-weight: 700;
+      color: #294f5f;
+      font-weight: 800;
       font-size: 1.05rem;
     }
 
+    .mini-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.81rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: #20303b;
+      background: rgba(255, 255, 255, 0.75);
+    }
+
     .insights {
-      margin-top: 30px;
-      background: var(--surface);
-      border-radius: 18px;
-      padding: 18px 20px;
-      border: 1px solid #e8eeea;
+      margin-top: 34px;
+      max-width: 70ch;
     }
 
     .insights ul {
-      margin: 10px 0 0 20px;
-      padding: 0;
+      margin: 12px 0 0;
+      padding-left: 18px;
       color: var(--muted);
+      display: grid;
+      gap: 8px;
     }
 
     .footer {
-      margin-top: 24px;
+      margin-top: 34px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
+      gap: 18px;
     }
 
     .footer .card {
-      padding: 18px;
+      transform: none;
+    }
+
+    .footer .card::before {
+      display: none;
+    }
+
+    .footer h3 {
+      margin: 0;
+      font-size: 1.06rem;
+    }
+
+    .footer p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      min-height: 0;
+    }
+
+    @media (max-width: 900px) {
+      .scene {
+        opacity: 0.78;
+      }
+
+      .scene-5 {
+        left: 25%;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .shell {
+        width: min(var(--max-width), 94vw);
+      }
+
+      .hero-actions {
+        width: 100%;
+      }
+
+      .cta {
+        width: 100%;
+      }
+
+      .scene {
+        font-size: 0.9rem;
+      }
+
+      .scene-label {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .scene-2,
+      .scene-4 {
+        display: none;
+      }
+
+      .products {
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 14px;
+      }
+
+      .card p {
+        min-height: 0;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="world" aria-hidden="true">
+    <article class="scene scene-1"><span class="scene-icon">🌳👦💐👧</span><span class="scene-label" data-i18n="scene1">Park walk surprise</span></article>
+    <article class="scene scene-2"><span class="scene-icon">☕👨‍🍳🌹👩</span><span class="scene-label" data-i18n="scene2">Cozy café gift</span></article>
+    <article class="scene scene-3"><span class="scene-icon">🌅🧑‍🦱🌸👩‍🦰</span><span class="scene-label" data-i18n="scene3">Beach sunset bouquet</span></article>
+    <article class="scene scene-4"><span class="scene-icon">🏙️👨🌺👩</span><span class="scene-label" data-i18n="scene4">City evening handoff</span></article>
+    <article class="scene scene-5"><span class="scene-icon">��👦🌷👧</span><span class="scene-label" data-i18n="scene5">Home doorstep delight</span></article>
+  </div>
+
   <main class="shell">
     <header class="topbar">
       <div class="brand" data-i18n="brand">Bloom Warsaw</div>
@@ -181,23 +478,31 @@
     </header>
 
     <section class="hero">
+      <p class="eyebrow" data-i18n="heroEyebrow">Handcrafted in Warsaw • delivered today</p>
       <h1 data-i18n="title">Modern flower bucket delivery in Warsaw</h1>
-      <p data-i18n="subtitle">
-        Fresh modern bouquets delivered the same day. Curated for city style, events, and meaningful gifts.
-      </p>
+      <p data-i18n="subtitle">Fresh modern bouquets delivered the same day. Curated for city style, events, and meaningful gifts.</p>
+      <div class="hero-actions">
+        <a class="cta cta-primary" href="tel:+48459262065" data-i18n="ctaPrimary">Order now in 60 seconds</a>
+        <a class="cta cta-secondary" href="#products" data-i18n="ctaSecondary">Browse bouquet options</a>
+      </div>
       <div class="chips">
         <span class="chip" data-i18n="chip1">Price range: $30–$150</span>
         <span class="chip" data-i18n="chip2">Same-day city delivery</span>
         <span class="chip" data-i18n="chip3">Crypto payment available</span>
       </div>
+      <ul class="trust">
+        <li data-i18n="trust1">Fresh stems sourced every morning</li>
+        <li data-i18n="trust2">Handcrafted by local floral designers</li>
+        <li data-i18n="trust3">Live delivery updates on mobile</li>
+      </ul>
     </section>
 
-    <h2 class="section-title" data-i18n="catalogTitle">Flower bucket collection</h2>
-    <section class="products" id="products"></section>
+    <h2 class="section-title" id="products" data-i18n="catalogTitle">Flower bucket collection</h2>
+    <section class="products" aria-live="polite" id="productsList"></section>
 
     <section class="insights">
       <h2 class="section-title" style="margin-top: 0" data-i18n="insightsTitle">Warsaw market insights</h2>
-      <ul id="insights"></ul>
+      <ul aria-live="polite" id="insights"></ul>
     </section>
 
     <section class="footer">
@@ -213,15 +518,138 @@
   </main>
 
   <script>
+    const productImages = [
+      {
+        src: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=640&h=800&q=80",
+        alt: {
+          en: "Pink rose bouquet with eucalyptus on a light table",
+          pl: "Różowy bukiet róż z eukaliptusem na jasnym stole",
+          uk: "Рожевий букет троянд з евкаліптом на світлому столі",
+          de: "Rosa Rosenstrauß mit Eukalyptus auf hellem Tisch"
+        }
+      },
+      {
+        src: "https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=640&h=800&q=80",
+        alt: {
+          en: "Peach and cream bouquet tied with ribbon",
+          pl: "Brzoskwiniowo-kremowy bukiet przewiązany wstążką",
+          uk: "Персиково-кремовий букет, перев'язаний стрічкою",
+          de: "Pfirsich- und cremefarbener Blumenstrauß mit Schleife"
+        }
+      },
+      {
+        src: "https://images.unsplash.com/photo-1526045478516-99145907023c?auto=format&fit=crop&w=640&h=800&q=80",
+        alt: {
+          en: "White tulip bouquet in minimalist wrapping",
+          pl: "Bukiet białych tulipanów w minimalistycznym opakowaniu",
+          uk: "Букет білих тюльпанів у мінімалістичному пакуванні",
+          de: "Weißer Tulpenstrauß in minimalistischem Wrap"
+        }
+      },
+      {
+        src: "https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=640&h=800&q=80",
+        alt: {
+          en: "Deep red rose arrangement for romantic gifting",
+          pl: "Kompozycja z głębokoczerwonych róż na romantyczny prezent",
+          uk: "Композиція з темно-червоних троянд для романтичного подарунка",
+          de: "Arrangement aus tiefroten Rosen als romantisches Geschenk"
+        }
+      },
+      {
+        src: "https://images.unsplash.com/photo-1591886960571-74d43a9d4166?auto=format&fit=crop&w=640&h=800&q=80",
+        alt: {
+          en: "Hydrangea bouquet with fresh green textures",
+          pl: "Bukiet hortensji ze świeżymi zielonymi dodatkami",
+          uk: "Букет гортензій зі свіжою зеленню",
+          de: "Hortensienstrauß mit frischen grünen Akzenten"
+        }
+      },
+      {
+        src: "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?auto=format&fit=crop&w=640&h=800&q=80",
+        alt: {
+          en: "Orange flower bouquet in warm sunset palette",
+          pl: "Pomarańczowy bukiet kwiatów w palecie zachodu słońca",
+          uk: "Помаранчевий букет у теплій палітрі заходу сонця",
+          de: "Orangener Blumenstrauß in warmer Sonnenuntergangspalette"
+        }
+      },
+      {
+        src: "https://images.unsplash.com/photo-1463154545680-d59320fd685d?auto=format&fit=crop&w=640&h=800&q=80",
+        alt: {
+          en: "Monochrome ivory bouquet with airy petals",
+          pl: "Monochromatyczny bukiet ivory z lekkimi płatkami",
+          uk: "Монохромний айворі-букет з легкими пелюстками",
+          de: "Monochromer Ivory-Strauß mit luftigen Blüten"
+        }
+      },
+      {
+        src: "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=640&h=800&q=80",
+        alt: {
+          en: "Purple toned bouquet with seasonal stems",
+          pl: "Bukiet w fioletowych tonach z sezonowymi łodygami",
+          uk: "Букет у фіолетових тонах із сезонними стеблами",
+          de: "Violetter Strauß mit saisonalen Stielen"
+        }
+      },
+      {
+        src: "https://images.unsplash.com/photo-1526397751294-331021109fbd?auto=format&fit=crop&w=640&h=800&q=80",
+        alt: {
+          en: "Luxury bouquet with orchids and roses",
+          pl: "Luksusowy bukiet ze storczykami i różami",
+          uk: "Розкішний букет з орхідеями та трояндами",
+          de: "Luxusstrauß mit Orchideen und Rosen"
+        }
+      },
+      {
+        src: "https://images.unsplash.com/photo-1455656678494-4d1b5f3e7ad7?auto=format&fit=crop&w=640&h=800&q=80",
+        alt: {
+          en: "Golden yellow bouquet wrapped for celebration",
+          pl: "Złoto-żółty bukiet zapakowany na wyjątkową okazję",
+          uk: "Золотисто-жовтий букет для святкового подарунка",
+          de: "Goldgelber Strauß als festliches Geschenk"
+        }
+      },
+      {
+        src: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=640&h=800&q=80",
+        alt: {
+          en: "Dramatic contrast bouquet in dark wrapping",
+          pl: "Kontrastowy bukiet w ciemnym opakowaniu",
+          uk: "Контрастний букет у темному пакуванні",
+          de: "Kontraststrauß in dunklem Wrap"
+        }
+      },
+      {
+        src: "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=640&h=800&q=80",
+        alt: {
+          en: "Large premium flower bucket arrangement",
+          pl: "Duża kompozycja premium w formie flower bucket",
+          uk: "Велика преміальна композиція flower bucket",
+          de: "Großes Premium-Arrangement im Flower-Bucket-Stil"
+        }
+      }
+    ];
+
     const content = {
       en: {
         brand: "Bloom Warsaw",
+        heroEyebrow: "Handcrafted in Warsaw • delivered today",
         title: "Modern flower bucket delivery in Warsaw",
         subtitle: "Fresh modern bouquets delivered the same day. Curated for city style, events, and meaningful gifts.",
+        ctaPrimary: "Order now in 60 seconds",
+        ctaSecondary: "Browse bouquet options",
         chip1: "Price range: $30–$150",
         chip2: "Same-day city delivery",
         chip3: "Crypto payment available",
+        trust1: "Fresh stems sourced every morning",
+        trust2: "Handcrafted by local floral designers",
+        trust3: "Live delivery updates on mobile",
+        scene1: "Park walk surprise",
+        scene2: "Cozy café gift",
+        scene3: "Beach sunset bouquet",
+        scene4: "City evening handoff",
+        scene5: "Home doorstep delight",
         catalogTitle: "Flower bucket collection",
+        productCta: "Select",
         insightsTitle: "Warsaw market insights",
         insights: [
           "Customers in Warsaw increasingly prefer minimal, pastel, and eco-wrapped arrangements.",
@@ -249,12 +677,24 @@
       },
       pl: {
         brand: "Bloom Warsaw",
-        title: "Nowoczesna dostawa bukietów w pudełku w Warszawie",
+        heroEyebrow: "Ręcznie tworzone w Warszawie • dostawa dziś",
+        title: "Nowoczesna dostawa flower bucket w Warszawie",
         subtitle: "Świeże, nowoczesne kompozycje z dostawą tego samego dnia. Idealne na prezent i wydarzenia.",
+        ctaPrimary: "Zamów teraz w 60 sekund",
+        ctaSecondary: "Przeglądaj bukiety",
         chip1: "Zakres cen: 30–150 $",
         chip2: "Dostawa tego samego dnia",
         chip3: "Płatność krypto dostępna",
+        trust1: "Świeże kwiaty pozyskiwane każdego ranka",
+        trust2: "Kompozycje tworzone przez lokalnych florystów",
+        trust3: "Aktualizacje dostawy na telefonie",
+        scene1: "Niespodzianka podczas spaceru w parku",
+        scene2: "Prezent w przytulnej kawiarni",
+        scene3: "Bukiet o zachodzie na plaży",
+        scene4: "Wieczorne wręczenie bukietu w mieście",
+        scene5: "Domowa niespodzianka pod drzwiami",
         catalogTitle: "Kolekcja bukietów",
+        productCta: "Wybierz",
         insightsTitle: "Wnioski z rynku warszawskiego",
         insights: [
           "W Warszawie rośnie popyt na minimalistyczne kompozycje i ekologiczne opakowania.",
@@ -282,12 +722,24 @@
       },
       uk: {
         brand: "Bloom Warsaw",
-        title: "Сучасна доставка букетів у Варшаві",
+        heroEyebrow: "Створено вручну у Варшаві • доставка сьогодні",
+        title: "Сучасна доставка flower bucket у Варшаві",
         subtitle: "Свіжі сучасні композиції з доставкою в той самий день для подарунків і подій.",
+        ctaPrimary: "Замовити зараз за 60 секунд",
+        ctaSecondary: "Переглянути букети",
         chip1: "Діапазон цін: 30–150 $",
         chip2: "Доставка в день замовлення",
         chip3: "Доступна оплата криптовалютою",
+        trust1: "Щоранку отримуємо свіжі квіти",
+        trust2: "Композиції створюють локальні флористи",
+        trust3: "Мобільні оновлення статусу доставки",
+        scene1: "Сюрприз під час прогулянки в парку",
+        scene2: "Подарунок у затишній кав'ярні",
+        scene3: "Букет на заході сонця біля моря",
+        scene4: "Вечірнє вручення квітів у місті",
+        scene5: "Домашній сюрприз біля дверей",
         catalogTitle: "Колекція букетів",
+        productCta: "Обрати",
         insightsTitle: "Огляд ринку Варшави",
         insights: [
           "Клієнти у Варшаві обирають мінімалістичні та екологічні квіткові рішення.",
@@ -315,12 +767,24 @@
       },
       de: {
         brand: "Bloom Warsaw",
-        title: "Moderne Blumenkorb-Lieferung in Warschau",
+        heroEyebrow: "Handgefertigt in Warschau • heute geliefert",
+        title: "Moderne Flower-Bucket-Lieferung in Warschau",
         subtitle: "Frische, moderne Arrangements mit Lieferung am selben Tag für Geschenke und Events.",
+        ctaPrimary: "Jetzt in 60 Sekunden bestellen",
+        ctaSecondary: "Bouquets ansehen",
         chip1: "Preisspanne: 30–150 $",
         chip2: "Lieferung am selben Tag",
         chip3: "Krypto-Zahlung verfügbar",
+        trust1: "Jeden Morgen frisch bezogene Blumen",
+        trust2: "Handgefertigt von lokalen Florist:innen",
+        trust3: "Live-Updates zur Lieferung am Smartphone",
+        scene1: "Parkspaziergang mit Überraschung",
+        scene2: "Geschenk im gemütlichen Café",
+        scene3: "Bouquet am Strand bei Sonnenuntergang",
+        scene4: "Abendliche Übergabe in der Stadt",
+        scene5: "Überraschung vor der Haustür",
         catalogTitle: "Blumenkorb-Kollektion",
+        productCta: "Auswählen",
         insightsTitle: "Warschauer Marktanalyse",
         insights: [
           "In Warschau steigt die Nachfrage nach minimalistischen und nachhaltig verpackten Sträußen.",
@@ -348,7 +812,7 @@
       }
     };
 
-    const productNode = document.getElementById("products");
+    const productNode = document.getElementById("productsList");
     const insightsNode = document.getElementById("insights");
     const i18nNodes = document.querySelectorAll("[data-i18n]");
     const languageButtons = document.querySelectorAll(".lang-btn");
@@ -362,13 +826,36 @@
         node.textContent = data[key];
       });
 
-      productNode.innerHTML = data.products.map(([name, desc, price]) => `
-        <article class="card">
-          <h3>${name}</h3>
-          <p>${desc}</p>
-          <div class="price">${price}</div>
-        </article>
-      `).join("");
+      productNode.innerHTML = data.products
+        .map(([name, desc, price], index) => {
+          const image = productImages[index % productImages.length];
+          const altText = image.alt[lang] || image.alt.en;
+          const loadingMode = index < 4 ? "eager" : "lazy";
+
+          return `
+            <article class="card">
+              <figure class="product-figure">
+                <img
+                  src="${image.src}"
+                  alt="${altText}"
+                  loading="${loadingMode}"
+                  decoding="async"
+                  width="640"
+                  height="800"
+                />
+              </figure>
+              <div class="card-content">
+                <h3>${name}</h3>
+                <p>${desc}</p>
+                <div class="card-bottom">
+                  <div class="price">${price}</div>
+                  <a class="mini-cta" href="tel:+48459262065">${data.productCta}</a>
+                </div>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
 
       insightsNode.innerHTML = data.insights.map((text) => `<li>${text}</li>`).join("");
     }
