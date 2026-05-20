@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bloom Warsaw | Modern Flower Delivery</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7faf8;
+      --surface: #ffffff;
+      --text: #24312a;
+      --muted: #61736a;
+      --accent: #5a9b7d;
+      --accent-soft: #d9ede4;
+      --shadow: 0 18px 40px rgba(36, 49, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(circle at 20% 0%, #f0faf4 0, var(--bg) 45%, #f8fbff 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .shell {
+      width: min(1120px, 92vw);
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      font-size: 1.05rem;
+    }
+
+    .lang-switch {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .lang-btn {
+      border: 0;
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 8px 12px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .hero {
+      margin-top: 28px;
+      background: linear-gradient(150deg, #ffffff 0%, #ecf7f2 100%);
+      border-radius: 22px;
+      padding: clamp(24px, 4vw, 44px);
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4.8vw, 3rem);
+      line-height: 1.15;
+    }
+
+    .hero p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      max-width: 66ch;
+      font-size: 1.04rem;
+    }
+
+    .chips {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      background: var(--accent-soft);
+      color: #2f5d49;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+
+    .section-title {
+      margin: 34px 0 14px;
+      font-size: 1.38rem;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.06);
+      border: 1px solid #ecf1ee;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .price {
+      margin-top: 12px;
+      color: #245d44;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .insights {
+      margin-top: 30px;
+      background: var(--surface);
+      border-radius: 18px;
+      padding: 18px 20px;
+      border: 1px solid #e8eeea;
+    }
+
+    .insights ul {
+      margin: 10px 0 0 20px;
+      padding: 0;
+      color: var(--muted);
+    }
+
+    .footer {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .footer .card {
+      padding: 18px;
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand" data-i18n="brand">Bloom Warsaw</div>
+      <div class="lang-switch" aria-label="Language switcher">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="pl">PL</button>
+        <button class="lang-btn" data-lang="uk">UA</button>
+        <button class="lang-btn" data-lang="de">DE</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h1 data-i18n="title">Modern flower bucket delivery in Warsaw</h1>
+      <p data-i18n="subtitle">
+        Fresh modern bouquets delivered the same day. Curated for city style, events, and meaningful gifts.
+      </p>
+      <div class="chips">
+        <span class="chip" data-i18n="chip1">Price range: $30–$150</span>
+        <span class="chip" data-i18n="chip2">Same-day city delivery</span>
+        <span class="chip" data-i18n="chip3">Crypto payment available</span>
+      </div>
+    </section>
+
+    <h2 class="section-title" data-i18n="catalogTitle">Flower bucket collection</h2>
+    <section class="products" id="products"></section>
+
+    <section class="insights">
+      <h2 class="section-title" style="margin-top: 0" data-i18n="insightsTitle">Warsaw market insights</h2>
+      <ul id="insights"></ul>
+    </section>
+
+    <section class="footer">
+      <article class="card">
+        <h3 data-i18n="contactTitle">Contact</h3>
+        <p data-i18n="contactText">Call or message: +48459262065</p>
+      </article>
+      <article class="card">
+        <h3 data-i18n="paymentTitle">Payment</h3>
+        <p data-i18n="paymentText">We accept major crypto wallets (BTC, ETH, USDT).</p>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const content = {
+      en: {
+        brand: "Bloom Warsaw",
+        title: "Modern flower bucket delivery in Warsaw",
+        subtitle: "Fresh modern bouquets delivered the same day. Curated for city style, events, and meaningful gifts.",
+        chip1: "Price range: $30–$150",
+        chip2: "Same-day city delivery",
+        chip3: "Crypto payment available",
+        catalogTitle: "Flower bucket collection",
+        insightsTitle: "Warsaw market insights",
+        insights: [
+          "Customers in Warsaw increasingly prefer minimal, pastel, and eco-wrapped arrangements.",
+          "Fast delivery and clear mobile ordering are now expected for urban gifting.",
+          "Premium mixed textures (roses + seasonal stems) convert best in the $60–$110 segment."
+        ],
+        contactTitle: "Contact",
+        contactText: "Call or message: +48459262065",
+        paymentTitle: "Payment",
+        paymentText: "We accept major crypto wallets (BTC, ETH, USDT).",
+        products: [
+          ["Nordic Blush", "Soft pink roses and eucalyptus", "$35"],
+          ["City Peach", "Peach ranunculus with cream lisianthus", "$42"],
+          ["Urban White", "White tulips and wax flowers", "$48"],
+          ["Velvet Ruby", "Red roses and burgundy accents", "$55"],
+          ["Mint Cloud", "Hydrangea, ruscus, and airy fillers", "$60"],
+          ["Sunset Loft", "Orange gerbera with apricot carnations", "$68"],
+          ["Monochrome Chic", "Layered white and ivory textures", "$74"],
+          ["Royal Plum", "Deep violet tones and mixed greens", "$82"],
+          ["Skyline Luxe", "Orchids, roses, and seasonal premium stems", "$95"],
+          ["Golden Hour", "Golden-yellow palette with silk ribbon wrap", "$110"],
+          ["Signature Noir", "Black wrap with dramatic contrast flowers", "$129"],
+          ["Warsaw Prestige", "Large premium designer bucket", "$149"]
+        ]
+      },
+      pl: {
+        brand: "Bloom Warsaw",
+        title: "Nowoczesna dostawa bukietów w pudełku w Warszawie",
+        subtitle: "Świeże, nowoczesne kompozycje z dostawą tego samego dnia. Idealne na prezent i wydarzenia.",
+        chip1: "Zakres cen: 30–150 $",
+        chip2: "Dostawa tego samego dnia",
+        chip3: "Płatność krypto dostępna",
+        catalogTitle: "Kolekcja bukietów",
+        insightsTitle: "Wnioski z rynku warszawskiego",
+        insights: [
+          "W Warszawie rośnie popyt na minimalistyczne kompozycje i ekologiczne opakowania.",
+          "Szybka dostawa oraz prosty mobilny proces zamówień to standard rynkowy.",
+          "Najlepiej sprzedaje się segment premium 60–110 $ z mieszanymi fakturami kwiatów."
+        ],
+        contactTitle: "Kontakt",
+        contactText: "Telefon lub wiadomość: +48459262065",
+        paymentTitle: "Płatności",
+        paymentText: "Akceptujemy popularne portfele krypto (BTC, ETH, USDT).",
+        products: [
+          ["Nordic Blush", "Różowe róże i eukaliptus", "$35"],
+          ["City Peach", "Jaskry brzoskwiniowe i eustoma", "$42"],
+          ["Urban White", "Białe tulipany i delikatne dodatki", "$48"],
+          ["Velvet Ruby", "Czerwone róże i bordowe akcenty", "$55"],
+          ["Mint Cloud", "Hortensja i lekkie zielone dodatki", "$60"],
+          ["Sunset Loft", "Pomarańczowe gerbery i morelowe goździki", "$68"],
+          ["Monochrome Chic", "Biel i kość słoniowa, elegancka forma", "$74"],
+          ["Royal Plum", "Śliwkowe tony i świeża zieleń", "$82"],
+          ["Skyline Luxe", "Storczyki, róże i sezonowe premium", "$95"],
+          ["Golden Hour", "Złote barwy z satynową wstążką", "$110"],
+          ["Signature Noir", "Czarne opakowanie i kontrastowe kwiaty", "$129"],
+          ["Warsaw Prestige", "Duży designerski bukiet premium", "$149"]
+        ]
+      },
+      uk: {
+        brand: "Bloom Warsaw",
+        title: "Сучасна доставка букетів у Варшаві",
+        subtitle: "Свіжі сучасні композиції з доставкою в той самий день для подарунків і подій.",
+        chip1: "Діапазон цін: 30–150 $",
+        chip2: "Доставка в день замовлення",
+        chip3: "Доступна оплата криптовалютою",
+        catalogTitle: "Колекція букетів",
+        insightsTitle: "Огляд ринку Варшави",
+        insights: [
+          "Клієнти у Варшаві обирають мінімалістичні та екологічні квіткові рішення.",
+          "Швидка доставка й просте мобільне замовлення вже є базовою вимогою.",
+          "Найкраще продаються преміальні мікси у сегменті 60–110 $."
+        ],
+        contactTitle: "Контакт",
+        contactText: "Телефон або повідомлення: +48459262065",
+        paymentTitle: "Оплата",
+        paymentText: "Приймаємо криптогаманці (BTC, ETH, USDT).",
+        products: [
+          ["Nordic Blush", "Ніжні рожеві троянди та евкаліпт", "$35"],
+          ["City Peach", "Персикові ранункулюси та еустома", "$42"],
+          ["Urban White", "Білі тюльпани й легкі акценти", "$48"],
+          ["Velvet Ruby", "Червоні троянди та бордові деталі", "$55"],
+          ["Mint Cloud", "Гортензія та свіжа зелень", "$60"],
+          ["Sunset Loft", "Помаранчеві гербери і абрикосові гвоздики", "$68"],
+          ["Monochrome Chic", "Білі та айворі відтінки", "$74"],
+          ["Royal Plum", "Глибокі сливові тони", "$82"],
+          ["Skyline Luxe", "Орхідеї, троянди та преміум сезонні квіти", "$95"],
+          ["Golden Hour", "Золотиста палітра з стрічкою", "$110"],
+          ["Signature Noir", "Темна упаковка й контрастні квіти", "$129"],
+          ["Warsaw Prestige", "Великий дизайнерський букет", "$149"]
+        ]
+      },
+      de: {
+        brand: "Bloom Warsaw",
+        title: "Moderne Blumenkorb-Lieferung in Warschau",
+        subtitle: "Frische, moderne Arrangements mit Lieferung am selben Tag für Geschenke und Events.",
+        chip1: "Preisspanne: 30–150 $",
+        chip2: "Lieferung am selben Tag",
+        chip3: "Krypto-Zahlung verfügbar",
+        catalogTitle: "Blumenkorb-Kollektion",
+        insightsTitle: "Warschauer Marktanalyse",
+        insights: [
+          "In Warschau steigt die Nachfrage nach minimalistischen und nachhaltig verpackten Sträußen.",
+          "Schnelle Lieferung und mobile Bestellbarkeit sind klare Marktstandards.",
+          "Premium-Mix-Bouquets im Segment 60–110 $ zeigen die stärkste Nachfrage."
+        ],
+        contactTitle: "Kontakt",
+        contactText: "Anruf oder Nachricht: +48459262065",
+        paymentTitle: "Zahlung",
+        paymentText: "Wir akzeptieren Krypto-Wallets (BTC, ETH, USDT).",
+        products: [
+          ["Nordic Blush", "Zarte rosa Rosen mit Eukalyptus", "$35"],
+          ["City Peach", "Pfirsichfarbene Ranunkeln mit Lisianthus", "$42"],
+          ["Urban White", "Weiße Tulpen und feine Akzente", "$48"],
+          ["Velvet Ruby", "Rote Rosen mit bordeauxfarbenen Details", "$55"],
+          ["Mint Cloud", "Hortensie mit frischen Grüntönen", "$60"],
+          ["Sunset Loft", "Orange Gerbera mit apricotfarbenen Nelken", "$68"],
+          ["Monochrome Chic", "Elegante Weiß-Ivory-Komposition", "$74"],
+          ["Royal Plum", "Tiefe Pflaumentöne mit Grün", "$82"],
+          ["Skyline Luxe", "Orchideen, Rosen und Premium-Saisonblumen", "$95"],
+          ["Golden Hour", "Goldene Farbpalette mit Schleifenband", "$110"],
+          ["Signature Noir", "Dunkles Wrap mit Kontrastblumen", "$129"],
+          ["Warsaw Prestige", "Großer Designer-Premiumkorb", "$149"]
+        ]
+      }
+    };
+
+    const productNode = document.getElementById("products");
+    const insightsNode = document.getElementById("insights");
+    const i18nNodes = document.querySelectorAll("[data-i18n]");
+    const languageButtons = document.querySelectorAll(".lang-btn");
+
+    function renderLanguage(lang) {
+      const data = content[lang];
+      document.documentElement.lang = lang;
+
+      i18nNodes.forEach((node) => {
+        const key = node.getAttribute("data-i18n");
+        node.textContent = data[key];
+      });
+
+      productNode.innerHTML = data.products.map(([name, desc, price]) => `
+        <article class="card">
+          <h3>${name}</h3>
+          <p>${desc}</p>
+          <div class="price">${price}</div>
+        </article>
+      `).join("");
+
+      insightsNode.innerHTML = data.insights.map((text) => `<li>${text}</li>`).join("");
+    }
+
+    languageButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        languageButtons.forEach((el) => el.classList.remove("active"));
+        btn.classList.add("active");
+        renderLanguage(btn.dataset.lang);
+      });
+    });
+
+    renderLanguage("en");
+  </script>
+</body>
+</html>
